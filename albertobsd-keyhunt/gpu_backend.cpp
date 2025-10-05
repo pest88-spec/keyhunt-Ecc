@@ -27,15 +27,28 @@ extern "C" int GPU_BatchPrivToPub(const uint32_t* h_private_keys,
   size_t bytes = (size_t)count * 8u * sizeof(uint32_t);
   cudaError_t err;
 
+  // 静态计数器，每 1000 次调用输出一次调试信息
+  static uint32_t call_counter = 0;
+  call_counter++;
+
+  if (call_counter % 1000 == 1 || call_counter == 1) {
+    fprintf(stderr, "[D] GPU_BatchPrivToPub call #%u: count=%u, bytes=%zu (%.1fMB)\n",
+            call_counter, count, bytes, bytes / (1024.0 * 1024.0));
+  }
+
   err = cudaMalloc((void**)&d_priv, bytes); if (err != cudaSuccess) goto cleanup_err;
   err = cudaMalloc((void**)&d_x, bytes); if (err != cudaSuccess) goto cleanup_err;
   err = cudaMalloc((void**)&d_y, bytes); if (err != cudaSuccess) goto cleanup_err;
 
   err = cudaMemcpy(d_priv, h_private_keys, bytes, cudaMemcpyHostToDevice); if (err != cudaSuccess) goto cleanup_err;
 
+  // GPU 计算核心调用
   {
     int rc = kh_ecc_pmul_batch(d_priv, d_x, d_y, count, block_dim);
-    if (rc != 0) { err = (cudaError_t)rc; goto cleanup_err; }
+    if (rc != 0) {
+      fprintf(stderr, "[E] GPU kh_ecc_pmul_batch failed (code %d), count=%u, block_dim=%u\n", rc, count, block_dim);
+      err = (cudaError_t)rc; goto cleanup_err;
+    }
   }
 
   err = cudaMemcpy(h_public_keys_x, d_x, bytes, cudaMemcpyDeviceToHost); if (err != cudaSuccess) goto cleanup_err;
