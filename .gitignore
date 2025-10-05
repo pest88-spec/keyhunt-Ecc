@@ -1,0 +1,27 @@
+# Build files
+build/
+*.o
+*.a
+*.obj
+*.exe
+
+# IDE
+.vscode/
+.claude/
+.cursor/
+.cursorignore
+
+# Temporary files
+*.log
+*.tmp
+*_test
+*_debug
+test_*
+debug_*
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
