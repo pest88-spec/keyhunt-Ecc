@@ -12,7 +12,26 @@ else
     CUDA_INCDIR        ?= /usr/local/cuda/include
 endif
 
-default:
+# KEYHUNT-ECC library path
+KEYHUNT_ECC_LIB = $(KEYHUNT_ECC_LIBDIR)/libkeyhunt_ecc.a
+
+# Set default goal to build keyhunt (not the library)
+.DEFAULT_GOAL := default
+
+.PHONY: default clean legacy
+
+default: keyhunt
+
+# Auto-build KEYHUNT-ECC library if not exists or outdated
+$(KEYHUNT_ECC_LIB):
+	@echo "[+] Building KEYHUNT-ECC GPU library..."
+	@mkdir -p $(KEYHUNT_ECC_LIBDIR)
+	@cd $(KEYHUNT_ECC_LIBDIR)/.. && cmake -B build -DCMAKE_BUILD_TYPE=Release
+	@cd $(KEYHUNT_ECC_LIBDIR) && $(MAKE) -j$$(nproc)
+	@echo "[+] KEYHUNT-ECC library built successfully"
+
+keyhunt: $(KEYHUNT_ECC_LIB)
+	@echo "[+] Building keyhunt..."
 	g++ -m64 -march=native -mtune=native -mssse3 -Wall -Wextra -Wno-deprecated-copy -Ofast -ftree-vectorize  -c oldbloom/bloom.cpp -o oldbloom.o
 	g++ -m64 -march=native -mtune=native -mssse3 -Wall -Wextra -Wno-deprecated-copy -Ofast -ftree-vectorize  -c bloom/bloom.cpp -o bloom.o
 	gcc -m64 -march=native -mtune=native -mssse3 -Wall -Wextra -Wno-unused-parameter -Ofast -ftree-vectorize -c base58/base58.c -o base58.o
@@ -38,7 +57,7 @@ default:
 	g++ -m64 -march=native -mtune=native -mssse3 -Wall -Wextra -Wno-deprecated-copy -Ofast -ftree-vectorize -o keyhunt keyhunt.cpp base58.o rmd160.o hash/ripemd160.o hash/ripemd160_sse.o hash/sha256.o hash/sha256_sse.o bloom.o oldbloom.o xxhash.o util.o Int.o  Point.o SECP256K1.o  IntMod.o  Random.o IntGroup.o sha3.o keccak.o gpu_backend.o -L$(KEYHUNT_ECC_LIBDIR) -lkeyhunt_ecc -L$(CUDA_LIBDIR) -lcudart -lm -lpthread -Wl,--allow-multiple-definition
 	rm -r *.o
 clean:
-	rm keyhunt
+	rm -f keyhunt *.o hash/*.o
 legacy:
 	g++ -march=native -mtune=native -Wall -Wextra -Ofast -ftree-vectorize  -c oldbloom/bloom.cpp -o oldbloom.o
 	g++ -march=native -mtune=native -Wall -Wextra -Ofast -ftree-vectorize  -c bloom/bloom.cpp -o bloom.o
