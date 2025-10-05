@@ -3,6 +3,11 @@ project(keyhunt_ecc LANGUAGES CUDA CXX)
 
 set(CMAKE_CUDA_STANDARD 17)
 
+# Auto-detect CUDA architecture if not specified
+if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+  set(CMAKE_CUDA_ARCHITECTURES native)
+endif()
+
 add_library(keyhunt_ecc STATIC
   core/batch_kernel.h
   core/ec_point.h

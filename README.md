@@ -74,8 +74,8 @@ cmake --version
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/yourusername/keyhunt-ecc.git
-cd keyhunt-ecc/gECC-main
+git clone https://github.com/pest88-spec/keyhunt-Ecc.git
+cd keyhunt-Ecc
 ```
 
 ### 2. 构建 KEYHUNT-ECC 库
@@ -139,8 +139,8 @@ sudo apt install nvidia-cuda-toolkit
 #### 2. 克隆项目
 
 ```bash
-git clone <repository-url>
-cd keyhunt-ecc/gECC-main
+git clone https://github.com/pest88-spec/keyhunt-Ecc.git
+cd keyhunt-Ecc
 ```
 
 #### 3. 构建 KEYHUNT-ECC GPU 库
@@ -151,10 +151,8 @@ cd KEYHUNT-ECC
 # 创建构建目录
 mkdir -p build && cd build
 
-# 配置 CMake (自动检测 CUDA)
-cmake .. \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CUDA_ARCHITECTURES=80  # 根据你的 GPU 调整
+# 配置 CMake (自动检测 GPU 架构)
+cmake .. -DCMAKE_BUILD_TYPE=Release
 
 # 编译
 make -j$(nproc)
@@ -165,11 +163,7 @@ ls -lh libkeyhunt_ecc.a
 cd ../..
 ```
 
-**GPU 架构对照表**:
-- RTX 20 系列: `-DCMAKE_CUDA_ARCHITECTURES=75`
-- RTX 30 系列: `-DCMAKE_CUDA_ARCHITECTURES=86`
-- RTX 40 系列: `-DCMAKE_CUDA_ARCHITECTURES=89`
-- A100: `-DCMAKE_CUDA_ARCHITECTURES=80`
+**说明**: CMake 会自动检测您的 GPU 架构（native），无需手动指定。支持所有 NVIDIA GPU (RTX 20/30/40 系列, A100, H20 等)
 
 #### 4. 构建 keyhunt 集成版本
 
@@ -496,7 +490,7 @@ export CUDA_HOME=/usr/local/cuda
 ## 项目结构
 
 ```
-gECC-main/
+keyhunt-Ecc/
 ├── KEYHUNT-ECC/              # GPU 核心库
 │   ├── api/
 │   │   ├── bridge.h          # C ABI 接口
@@ -507,7 +501,7 @@ gECC-main/
 │   │   └── fp_montgomery.h   # Montgomery 模乘
 │   ├── secp256k1/
 │   │   └── constants.h       # secp256k1 常量
-│   ├── build/
+│   ├── build/                # 构建目录 (本地生成)
 │   │   └── libkeyhunt_ecc.a  # 静态库 (编译后)
 │   └── CMakeLists.txt
 │
@@ -520,22 +514,17 @@ gECC-main/
 │       ├── 125.txt
 │       └── ...
 │
+├── include/                  # gECC 原始头文件
+├── scripts/                  # 构建脚本
+├── test/                     # 单元测试
 ├── README.md                 # 本文档
-├── INTEGRATION_PLAN_CN.md    # 集成计划
-├── M1_M2_FINAL_REPORT.md     # 里程碑报告
-└── GPU_VERIFICATION_REPORT.md # 正确性验证报告
+├── LICENSE                   # 许可证
+└── CMakeLists.txt            # 项目根构建配置
 ```
 
 ---
 
 ## 开发文档
-
-### 技术报告
-
-- [M1-M2 最终完成报告](M1_M2_FINAL_REPORT.md) - 完整开发过程和性能数据
-- [GPU 验证报告](GPU_VERIFICATION_REPORT.md) - 100% 正确性验证
-- [集成计划](INTEGRATION_PLAN_CN.md) - 里程碑和实施状态
-- [M2 里程碑总结](M2_MILESTONE_SUMMARY.md) - 性能优化详情
 
 ### 核心技术
 
@@ -573,10 +562,11 @@ int GPU_BatchPrivToPub_Bytes32BE(
 
 ### 性能基准
 
-参考 `M1_M2_FINAL_REPORT.md` 中的详细性能数据：
+实测性能数据：
 - GPU 利用率提升: 4% → 70% (17.5x)
 - 批量大小优化: 1024 → 4096 (4x)
-- 正确性: 100% vs libsecp256k1
+- 正确性验证: 100% vs libsecp256k1
+- 测试环境: RTX 2080 Ti, CUDA 11.0+
 
 ---
 
@@ -596,16 +586,14 @@ int GPU_BatchPrivToPub_Bytes32BE(
 
 欢迎提交 Issue 和 Pull Request！
 
-**开发规范**: 请严格遵守 [.cursor/rules/allrule.mdc](.cursor/rules/allrule.mdc) 项目开发铁笼协议。
-
 ---
 
 ## 联系方式
 
-### KEYHUNT-ECC 集成
+### KEYHUNT-ECC 项目
 
-- **GitHub**: [项目仓库]
-- **Issues**: 技术问题和 Bug 报告
+- **GitHub**: https://github.com/pest88-spec/keyhunt-Ecc
+- **Issues**: https://github.com/pest88-spec/keyhunt-Ecc/issues
 
 ### 原始项目
 
