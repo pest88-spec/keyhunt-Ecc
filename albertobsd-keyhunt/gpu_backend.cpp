@@ -2,16 +2,88 @@
 #include <cuda_runtime.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
 
 // 引用我们在 KEYHUNT-ECC 中提供的 C 接口桥
 // 注: 使用相对路径,由编译器的 -I 选项指定包含目录
 #include "../KEYHUNT-ECC/api/bridge.h"
 #include "gpu_backend.h"
 
+// Performance monitoring for dynamic optimization
+static uint32_t call_counter = 0;
+static double total_gpu_time = 0.0;
+static double total_keys_processed = 0.0;
+static struct timeval last_perf_report = {0, 0};
+
+// Memory pool optimization for better performance
+static uint32_t *d_priv_pool = nullptr;
+static uint32_t *d_x_pool = nullptr;
+static uint32_t *d_y_pool = nullptr;
+static size_t pool_size = 0;
+static uint32_t pool_batch_size = 0;
+
+// Performance timing helper
+static double get_time() {
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  return tv.tv_sec + tv.tv_usec / 1000000.0;
+}
+
+// Memory pool management for high-performance GPU operations
+static int ensure_pool_size(uint32_t batch_size) {
+  size_t required_size = (size_t)batch_size * 8u * sizeof(uint32_t);
+
+  // If pool is already allocated and large enough, reuse it
+  if (d_priv_pool && pool_size >= required_size) {
+    return 0;
+  }
+
+  // Free existing pool if too small
+  if (d_priv_pool) {
+    cudaFree(d_priv_pool);
+    cudaFree(d_x_pool);
+    cudaFree(d_y_pool);
+    d_priv_pool = d_x_pool = d_y_pool = nullptr;
+    pool_size = 0;
+  }
+
+  // Allocate new larger pool
+  cudaError_t err;
+  err = cudaMalloc((void**)&d_priv_pool, required_size);
+  if (err != cudaSuccess) return -1;
+
+  err = cudaMalloc((void**)&d_x_pool, required_size);
+  if (err != cudaSuccess) {
+    cudaFree(d_priv_pool);
+    d_priv_pool = nullptr;
+    return -1;
+  }
+
+  err = cudaMalloc((void**)&d_y_pool, required_size);
+  if (err != cudaSuccess) {
+    cudaFree(d_priv_pool);
+    cudaFree(d_x_pool);
+    d_priv_pool = d_x_pool = nullptr;
+    return -1;
+  }
+
+  pool_size = required_size;
+  pool_batch_size = batch_size;
+  fprintf(stderr, "[GPU-Mem] Allocated memory pool: %.1fMB (batch: %u)\n",
+          required_size / (1024.0 * 1024.0), batch_size);
+
+  return 0;
+}
+
 extern "C" int GPU_IsAvailable() {
   int ndev = 0;
   cudaError_t err = cudaGetDeviceCount(&ndev);
-  if (err != cudaSuccess) return 0;
+  if (err != cudaSuccess) {
+    fprintf(stderr, "[D] cudaGetDeviceCount failed: %s\n", cudaGetErrorString(err));
+    return 0;
+  }
+  fprintf(stderr, "[D] Found %d CUDA devices\n", ndev);
   return (ndev > 0) ? 1 : 0;
 }
 
@@ -23,45 +95,53 @@ extern "C" int GPU_BatchPrivToPub(const uint32_t* h_private_keys,
   if (!h_private_keys || !h_public_keys_x || !h_public_keys_y || count == 0) return -1;
   if (!GPU_IsAvailable()) return -2;
 
-  uint32_t *d_priv = nullptr, *d_x = nullptr, *d_y = nullptr;
+  // Performance monitoring
+  call_counter++;
+  double start_time = get_time();
+
+  // Use memory pool for better performance
+  if (ensure_pool_size(count) != 0) {
+    return -3; // Memory pool allocation failed
+  }
+
   size_t bytes = (size_t)count * 8u * sizeof(uint32_t);
   cudaError_t err;
 
-  // 静态计数器，每 1000 次调用输出一次调试信息
-  static uint32_t call_counter = 0;
-  call_counter++;
+  // Use pre-allocated memory pool
+  err = cudaMemcpy(d_priv_pool, h_private_keys, bytes, cudaMemcpyHostToDevice);
+  if (err != cudaSuccess) return (int)err;
 
-  if (call_counter % 1000 == 1 || call_counter == 1) {
-    fprintf(stderr, "[D] GPU_BatchPrivToPub call #%u: count=%u, bytes=%zu (%.1fMB)\n",
-            call_counter, count, bytes, bytes / (1024.0 * 1024.0));
-  }
-
-  err = cudaMalloc((void**)&d_priv, bytes); if (err != cudaSuccess) goto cleanup_err;
-  err = cudaMalloc((void**)&d_x, bytes); if (err != cudaSuccess) goto cleanup_err;
-  err = cudaMalloc((void**)&d_y, bytes); if (err != cudaSuccess) goto cleanup_err;
-
-  err = cudaMemcpy(d_priv, h_private_keys, bytes, cudaMemcpyHostToDevice); if (err != cudaSuccess) goto cleanup_err;
-
-  // GPU 计算核心调用
   {
-    int rc = kh_ecc_pmul_batch(d_priv, d_x, d_y, count, block_dim);
-    if (rc != 0) {
-      fprintf(stderr, "[E] GPU kh_ecc_pmul_batch failed (code %d), count=%u, block_dim=%u\n", rc, count, block_dim);
-      err = (cudaError_t)rc; goto cleanup_err;
-    }
+    int rc = kh_ecc_pmul_batch(d_priv_pool, d_x_pool, d_y_pool, count, block_dim);
+    if (rc != 0) return rc;
   }
 
-  err = cudaMemcpy(h_public_keys_x, d_x, bytes, cudaMemcpyDeviceToHost); if (err != cudaSuccess) goto cleanup_err;
-  err = cudaMemcpy(h_public_keys_y, d_y, bytes, cudaMemcpyDeviceToHost); if (err != cudaSuccess) goto cleanup_err;
+  err = cudaMemcpy(h_public_keys_x, d_x_pool, bytes, cudaMemcpyDeviceToHost);
+  if (err != cudaSuccess) return (int)err;
 
-  cudaFree(d_priv); cudaFree(d_x); cudaFree(d_y);
+  err = cudaMemcpy(h_public_keys_y, d_y_pool, bytes, cudaMemcpyDeviceToHost);
+  if (err != cudaSuccess) return (int)err;
+
+  // Update performance statistics
+  double end_time = get_time();
+  double gpu_time = end_time - start_time;
+  total_gpu_time += gpu_time;
+  total_keys_processed += count;
+
+  // Performance reporting every 1000 calls or 10 seconds
+  struct timeval current_time;
+  gettimeofday(&current_time, NULL);
+  double time_since_last_report = (current_time.tv_sec - last_perf_report.tv_sec) +
+                                 (current_time.tv_usec - last_perf_report.tv_usec) / 1000000.0;
+
+  if (call_counter % 1000 == 0 || time_since_last_report >= 10.0) {
+    double avg_keys_per_sec = total_keys_processed / total_gpu_time;
+    fprintf(stderr, "[GPU-Perf] Call #%u: %.2f ms, %.0f keys/s (batch: %u)\n",
+            call_counter, gpu_time * 1000.0, avg_keys_per_sec, count);
+    last_perf_report = current_time;
+  }
+
   return 0;
-
-cleanup_err:
-  if (d_priv) cudaFree(d_priv);
-  if (d_x) cudaFree(d_x);
-  if (d_y) cudaFree(d_y);
-  return (int)err;
 }
 
 // 字节序转换：32字节大端(BE) -> 8×uint32小端(LE)

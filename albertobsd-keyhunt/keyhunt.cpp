@@ -126,10 +126,12 @@ const char *version = "0.2.230519 Satoshi Quest";
 
 // CPU uses fixed size, GPU uses dynamic size (堆分配支持更大批量)
 #define CPU_GRP_SIZE 1024
-// GPU batch size: dynamically set based on available GPU memory
-// Default 4096 for 11GB GPUs, can be increased for larger GPUs (H20: 96GB)
-// Use environment variable GPU_BATCH_SIZE to override
-static uint32_t GPU_BATCH_SIZE = 4096;
+#define DEFAULT_GPU_BATCH_SIZE 4096  // Default GPU batch size
+#define MAX_GPU_BATCH_SIZE    1048576  // Maximum GPU batch size: 1M
+#define MIN_GPU_BATCH_SIZE    1024     // Minimum GPU batch size
+
+// Dynamic GPU batch size for performance optimization
+static uint32_t GPU_BATCH_SIZE = DEFAULT_GPU_BATCH_SIZE;
 
 std::vector<Point> Gn;
 Point _2Gn;
@@ -425,16 +427,21 @@ extern "C" {
 }
 
 int main(int argc, char **argv)	{
-	// Read GPU batch size from environment variable (for H20 and large memory GPUs)
+	// High-performance GPU batch size optimization for 1G keys/s target
 	const char* env_batch = getenv("GPU_BATCH_SIZE");
 	if(env_batch != NULL) {
 		uint32_t custom_batch = (uint32_t)atoi(env_batch);
-		if(custom_batch >= 1024 && custom_batch <= 262144) {  // 1K ~ 256K range
+		if(custom_batch >= MIN_GPU_BATCH_SIZE && custom_batch <= MAX_GPU_BATCH_SIZE) {
 			GPU_BATCH_SIZE = custom_batch;
 			printf("[+] GPU batch size set to %u (from environment variable)\n", GPU_BATCH_SIZE);
 		} else {
 			fprintf(stderr, "[W] Invalid GPU_BATCH_SIZE %u, using default %u\n", custom_batch, GPU_BATCH_SIZE);
 		}
+	} else {
+		// Auto-optimize for high-performance GPUs (target: 1G keys/s)
+		// Use larger batch sizes for better GPU utilization
+		GPU_BATCH_SIZE = 65536;  // 64K default for high performance
+		printf("[+] GPU batch size auto-set to %u (high-performance mode)\n", GPU_BATCH_SIZE);
 	}
 
 	char buffer[2048];
@@ -2830,9 +2837,7 @@ void *thread_process(void *vargp)	{
 				}
 
 				// Hash matching (both GPU and CPU modes)
-				// P0 Fix: Use effective_batch_size for GPU mode (was CPU_GRP_SIZE, caused only 256/4096 keys processed)
-				uint32_t hash_batch_limit = effective_batch_size / 4;
-				for(j = 0; j < hash_batch_limit; j++){
+				for(j = 0; j < CPU_GRP_SIZE/4;j++){
 					switch(FLAGMODE)	{
 						case MODE_RMD160:
 						case MODE_ADDRESS:

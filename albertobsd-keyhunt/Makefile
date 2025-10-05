@@ -53,8 +53,12 @@ keyhunt: $(KEYHUNT_ECC_LIB)
 	# GPU backend (需要包含 CUDA 头文件路径)
 	g++ -m64 -march=native -mtune=native -mssse3 -Wall -Wextra -Ofast -ftree-vectorize -I$(CUDA_INCDIR) -c gpu_backend.cpp -o gpu_backend.o
 	# Link with GPU backend and KEYHUNT-ECC library
+	# 高性能优化: 添加更多编译器优化选项
 	# 注: 使用 -Wl,--allow-multiple-definition 以处理上游代码的符号重复定义问题
-	g++ -m64 -march=native -mtune=native -mssse3 -Wall -Wextra -Wno-deprecated-copy -Ofast -ftree-vectorize -o keyhunt keyhunt.cpp base58.o rmd160.o hash/ripemd160.o hash/ripemd160_sse.o hash/sha256.o hash/sha256_sse.o bloom.o oldbloom.o xxhash.o util.o Int.o  Point.o SECP256K1.o  IntMod.o  Random.o IntGroup.o sha3.o keccak.o gpu_backend.o -L$(KEYHUNT_ECC_LIBDIR) -lkeyhunt_ecc -L$(CUDA_LIBDIR) -lcudart -lm -lpthread -Wl,--allow-multiple-definition
+	g++ -m64 -march=native -mtune=native -mssse3 -Wall -Wextra -Wno-deprecated-copy -Ofast -ftree-vectorize \
+		-flto -funroll-loops -finline-functions -fprefetch-loop-arrays \
+		-pipe -fomit-frame-pointer \
+		-o keyhunt keyhunt.cpp base58.o rmd160.o hash/ripemd160.o hash/ripemd160_sse.o hash/sha256.o hash/sha256_sse.o bloom.o oldbloom.o xxhash.o util.o Int.o  Point.o SECP256K1.o  IntMod.o  Random.o IntGroup.o sha3.o keccak.o gpu_backend.o -L$(KEYHUNT_ECC_LIBDIR) -lkeyhunt_ecc -L$(CUDA_LIBDIR) -lcudart -lm -lpthread -Wl,--allow-multiple-definition
 	rm -r *.o
 clean:
 	rm -f keyhunt *.o hash/*.o
