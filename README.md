@@ -104,11 +104,14 @@ make
 
 ```bash
 # CPU 模式测试
+cd albertobsd-keyhunt
 ./keyhunt -m address -f tests/66.txt -b 66 -l compress -R -q -s 10
 
 # GPU 模式测试 (添加 -g 选项)
 ./keyhunt -g -m address -f tests/66.txt -b 66 -l compress -R -q -s 10 -t 4
 ```
+
+**注意**: 所有示例命令都需要在 `albertobsd-keyhunt/` 目录中执行
 
 ---
 
@@ -180,8 +183,10 @@ make
 
 # 验证可执行文件
 ls -lh keyhunt
-./keyhunt -h
+./keyhunt -h 2>&1 | head -20
 ```
+
+**重要**: keyhunt 可执行文件位于 `albertobsd-keyhunt/` 目录中
 
 ### Windows (WSL2)
 
@@ -221,6 +226,12 @@ export PATH=$PWD/cmake-3.27.0-linux-x86_64/bin:$PATH
 
 ### 基本用法
 
+**注意**: 请先进入 albertobsd-keyhunt 目录：
+```bash
+cd albertobsd-keyhunt
+```
+
+然后运行：
 ```bash
 ./keyhunt [OPTIONS] -m MODE -f TARGET_FILE -r RANGE
 ```
@@ -235,9 +246,10 @@ export PATH=$PWD/cmake-3.27.0-linux-x86_64/bin:$PATH
 
 **GPU 模式特性**:
 - 自动检测 CUDA 设备
-- 不可用时自动回退到 CPU 模式
-- 批量大小: 4096 keys (已优化)
-- GPU 利用率: ~70%
+- GPU 不可用时自动回退到 CPU 模式
+- 批量处理: 4096 keys/batch (已优化)
+- GPU 利用率: ~70% (RTX 2080 Ti 实测)
+- 显著提升吞吐量 (相比 CPU 模式)
 
 ---
 
@@ -354,12 +366,17 @@ export PATH=$PWD/cmake-3.27.0-linux-x86_64/bin:$PATH
 ### 示例 4: Vanity 地址生成
 
 ```bash
+# 创建 vanity 目标文件
+echo "1Love" > vanity_targets.txt
+
 ./keyhunt -g \
     -m vanity \
-    -f vanity_patterns.txt \
+    -f vanity_targets.txt \
     -l compress \
     -t 16
 ```
+
+**说明**: `-v` 参数指定要搜索的地址前缀
 
 ### 示例 5: CPU 模式 (无 GPU)
 
@@ -369,11 +386,15 @@ export PATH=$PWD/cmake-3.27.0-linux-x86_64/bin:$PATH
     -f tests/66.txt \
     -b 66 \
     -l compress \
-    -t 16 \
-    -R
+    -t $(nproc) \
+    -R \
+    -q \
+    -s 5
 ```
 
-**注意**: 去掉 `-g` 参数即为 CPU 模式
+**说明**:
+- 去掉 `-g` 参数即为 CPU 模式
+- `-t $(nproc)` 自动使用所有 CPU 核心
 
 ---
 
@@ -482,6 +503,7 @@ export CUDA_HOME=/usr/local/cuda
 
 3. 增加日志输出 (去掉 `-q`)
    ```bash
+   cd albertobsd-keyhunt
    ./keyhunt -g -m address -f tests/66.txt -b 66
    ```
 
