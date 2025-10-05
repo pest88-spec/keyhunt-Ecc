@@ -126,7 +126,10 @@ const char *version = "0.2.230519 Satoshi Quest";
 
 // CPU uses fixed size, GPU uses dynamic size (堆分配支持更大批量)
 #define CPU_GRP_SIZE 1024
-#define GPU_BATCH_SIZE 4096  // GPU batch size: 4K optimal (70% GPU util)
+// GPU batch size: dynamically set based on available GPU memory
+// Default 4096 for 11GB GPUs, can be increased for larger GPUs (H20: 96GB)
+// Use environment variable GPU_BATCH_SIZE to override
+static uint32_t GPU_BATCH_SIZE = 4096;
 
 std::vector<Point> Gn;
 Point _2Gn;
@@ -422,6 +425,18 @@ extern "C" {
 }
 
 int main(int argc, char **argv)	{
+	// Read GPU batch size from environment variable (for H20 and large memory GPUs)
+	const char* env_batch = getenv("GPU_BATCH_SIZE");
+	if(env_batch != NULL) {
+		uint32_t custom_batch = (uint32_t)atoi(env_batch);
+		if(custom_batch >= 1024 && custom_batch <= 262144) {  // 1K ~ 256K range
+			GPU_BATCH_SIZE = custom_batch;
+			printf("[+] GPU batch size set to %u (from environment variable)\n", GPU_BATCH_SIZE);
+		} else {
+			fprintf(stderr, "[W] Invalid GPU_BATCH_SIZE %u, using default %u\n", custom_batch, GPU_BATCH_SIZE);
+		}
+	}
+
 	char buffer[2048];
 	char rawvalue[32];
 	struct tothread *tt;	//tothread
