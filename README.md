@@ -78,40 +78,34 @@ git clone https://github.com/pest88-spec/keyhunt-Ecc.git
 cd keyhunt-Ecc
 ```
 
-### 2. 构建 KEYHUNT-ECC 库
+### 2. 一键构建 (自动构建 KEYHUNT-ECC 库 + keyhunt)
 
 ```bash
-cd KEYHUNT-ECC
-mkdir -p build && cd build
-cmake ..
-make
-cd ../..
-```
-
-验证库文件：
-```bash
-ls -lh KEYHUNT-ECC/build/libkeyhunt_ecc.a
-```
-
-### 3. 构建 keyhunt (GPU 版本)
-
-```bash
-cd albertobsd-keyhunt
 make
 ```
 
-### 4. 运行测试
+**说明**:
+- 会自动检测并构建 KEYHUNT-ECC GPU 库 (如果不存在或过期)
+- 自动检测 GPU 架构 (支持所有 NVIDIA GPU)
+- 构建完成后，二进制文件位于: `albertobsd-keyhunt/keyhunt`
+
+### 3. 运行测试
 
 ```bash
 # CPU 模式测试
-cd albertobsd-keyhunt
-./keyhunt -m address -f tests/66.txt -b 66 -l compress -R -q -s 10
+albertobsd-keyhunt/keyhunt -m address -f albertobsd-keyhunt/tests/66.txt -b 66 -l compress -R -q -s 10
 
 # GPU 模式测试 (添加 -g 选项)
-./keyhunt -g -m address -f tests/66.txt -b 66 -l compress -R -q -s 10 -t 4
+albertobsd-keyhunt/keyhunt -g -m address -f albertobsd-keyhunt/tests/66.txt -b 66 -l compress -R -q -s 10 -t 4
 ```
 
-**注意**: 所有示例命令都需要在 `albertobsd-keyhunt/` 目录中执行
+**其他构建选项**:
+```bash
+make clean    # 清理所有构建产物
+make legacy   # 构建 GMP 版本 (无 GPU 支持)
+make bsgsd    # 构建 bsgsd 工具
+make help     # 查看帮助信息
+```
 
 ---
 
@@ -146,47 +140,29 @@ git clone https://github.com/pest88-spec/keyhunt-Ecc.git
 cd keyhunt-Ecc
 ```
 
-#### 3. 构建 KEYHUNT-ECC GPU 库
+#### 3. 一键构建 (自动构建所有组件)
 
 ```bash
-cd KEYHUNT-ECC
-
-# 创建构建目录
-mkdir -p build && cd build
-
-# 配置 CMake (自动检测 GPU 架构)
-cmake .. -DCMAKE_BUILD_TYPE=Release
-
-# 编译
-make -j$(nproc)
-
-# 验证库文件生成
-ls -lh libkeyhunt_ecc.a
-
-cd ../..
-```
-
-**说明**: CMake 会自动检测您的 GPU 架构（native），无需手动指定。支持所有 NVIDIA GPU (RTX 20/30/40 系列, A100, H20 等)
-
-#### 4. 构建 keyhunt 集成版本
-
-```bash
-cd albertobsd-keyhunt
-
-# 检查 Makefile 中的 CUDA 路径 (通常自动检测)
-# 如需手动指定:
-# export CUDA_LIBDIR=/usr/local/cuda/lib64
-# export CUDA_INCDIR=/usr/local/cuda/include
-
-# 编译
+# 从项目根目录运行
 make
 
 # 验证可执行文件
-ls -lh keyhunt
-./keyhunt -h 2>&1 | head -20
+ls -lh albertobsd-keyhunt/keyhunt
+albertobsd-keyhunt/keyhunt -h 2>&1 | head -20
 ```
 
-**重要**: keyhunt 可执行文件位于 `albertobsd-keyhunt/` 目录中
+**说明**:
+- 自动检测并构建 KEYHUNT-ECC GPU 库 (如果不存在或过期)
+- 自动检测 GPU 架构 (native) - 支持所有 NVIDIA GPU (RTX 20/30/40, A100, H20 等)
+- 自动检测 CUDA 路径 (Linux: `/usr/local/cuda`, WSL: 自适应)
+- 如需手动指定 CUDA 路径:
+  ```bash
+  export CUDA_LIBDIR=/usr/local/cuda/lib64
+  export CUDA_INCDIR=/usr/local/cuda/include
+  make
+  ```
+
+**可执行文件位置**: `albertobsd-keyhunt/keyhunt`
 
 ### Windows (WSL2)
 
@@ -226,13 +202,13 @@ export PATH=$PWD/cmake-3.27.0-linux-x86_64/bin:$PATH
 
 ### 基本用法
 
-**注意**: 请先进入 albertobsd-keyhunt 目录：
 ```bash
-cd albertobsd-keyhunt
+albertobsd-keyhunt/keyhunt [OPTIONS] -m MODE -f TARGET_FILE -r RANGE
 ```
 
-然后运行：
+或进入目录后运行：
 ```bash
+cd albertobsd-keyhunt
 ./keyhunt [OPTIONS] -m MODE -f TARGET_FILE -r RANGE
 ```
 
@@ -241,7 +217,7 @@ cd albertobsd-keyhunt
 添加 `-g` 选项启用 GPU 加速：
 
 ```bash
-./keyhunt -g [OPTIONS] -m MODE -f TARGET_FILE -r RANGE
+albertobsd-keyhunt/keyhunt -g [OPTIONS] -m MODE -f TARGET_FILE -r RANGE
 ```
 
 **GPU 模式特性**:
@@ -311,9 +287,9 @@ cd albertobsd-keyhunt
 ### 示例 1: Puzzle 66 (地址模式, GPU 加速)
 
 ```bash
-./keyhunt -g \
+albertobsd-keyhunt/keyhunt -g \
     -m address \
-    -f tests/66.txt \
+    -f albertobsd-keyhunt/tests/66.txt \
     -b 66 \
     -l compress \
     -R \
@@ -325,7 +301,7 @@ cd albertobsd-keyhunt
 **说明**:
 - `-g`: 启用 GPU
 - `-m address`: 地址搜索模式
-- `-f tests/66.txt`: 目标地址文件
+- `-f albertobsd-keyhunt/tests/66.txt`: 目标地址文件
 - `-b 66`: 66-bit 密钥
 - `-l compress`: 仅压缩地址
 - `-R`: 随机搜索
@@ -336,9 +312,9 @@ cd albertobsd-keyhunt
 ### 示例 2: 指定范围搜索 (GPU)
 
 ```bash
-./keyhunt -g \
+albertobsd-keyhunt/keyhunt -g \
     -m address \
-    -f tests/66.txt \
+    -f albertobsd-keyhunt/tests/66.txt \
     -r 20000000000000000:3ffffffffffffffff \
     -l compress \
     -t 4
@@ -350,9 +326,9 @@ cd albertobsd-keyhunt
 ### 示例 3: BSGS 模式 (Puzzle 125)
 
 ```bash
-./keyhunt -g \
+albertobsd-keyhunt/keyhunt -g \
     -m bsgs \
-    -f tests/125.txt \
+    -f albertobsd-keyhunt/tests/125.txt \
     -b 125 \
     -k 2048 \
     -t 8 \
@@ -369,7 +345,7 @@ cd albertobsd-keyhunt
 # 创建 vanity 目标文件
 echo "1Love" > vanity_targets.txt
 
-./keyhunt -g \
+albertobsd-keyhunt/keyhunt -g \
     -m vanity \
     -f vanity_targets.txt \
     -l compress \
@@ -381,9 +357,9 @@ echo "1Love" > vanity_targets.txt
 ### 示例 5: CPU 模式 (无 GPU)
 
 ```bash
-./keyhunt \
+albertobsd-keyhunt/keyhunt \
     -m address \
-    -f tests/66.txt \
+    -f albertobsd-keyhunt/tests/66.txt \
     -b 66 \
     -l compress \
     -t $(nproc) \
