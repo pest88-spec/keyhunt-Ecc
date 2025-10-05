@@ -407,7 +407,26 @@ echo "1Love" > vanity_targets.txt
    -t $(nproc)  # 使用所有 CPU 核心
    ```
 
-2. **批量大小** (已优化为 4096, 无需修改)
+2. **批量大小优化** (根据 GPU 显存调整)
+
+   **默认**: 4096 (适用于 11GB 显存 GPU)
+
+   **大显存 GPU 优化**:
+   ```bash
+   # H20 (96GB 显存) - 建议 128K 批量
+   export GPU_BATCH_SIZE=131072
+   ./keyhunt -g -m address -f tests/66.txt -b 66 -l compress -R -q -s 5 -t 4
+
+   # RTX 4090 (24GB 显存) - 建议 16K 批量
+   export GPU_BATCH_SIZE=16384
+   ./keyhunt -g ...
+
+   # A100 (40GB 显存) - 建议 32K 批量
+   export GPU_BATCH_SIZE=32768
+   ./keyhunt -g ...
+   ```
+
+   **说明**: 增加批量大小可显著提升显存利用率 (H20: 2.5% → 80%+)
 
 3. **GPU 选择** (多 GPU 系统)
    ```bash
