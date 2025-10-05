@@ -845,6 +845,7 @@ case 'g':
 			FLAGGPU = 0;
 		} else {
 			fprintf(stderr, "[+] GPU backend enabled.\n");
+			fprintf(stderr, "[+] GPU batch size: %u keys/batch\n", GPU_BATCH_SIZE);
 		}
 	}
 
