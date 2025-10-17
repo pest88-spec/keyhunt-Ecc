@@ -2,6 +2,7 @@
 #include "gecc/support.h"
 #include "gtest/gtest.h"
 #include<cmath>
+#include "test_utils.cuh"
 
 using namespace gecc;
 using namespace gecc::arith;
@@ -13,8 +14,11 @@ template <typename ECDSA_Verify_Solver>
 void test_ecdsa_verify_correctness() {
   u32 count = 1 << 22;
 
+  test_util::SkipIfNoCudaDevice();
+
   ECDSA_Verify_Solver solver;
   ECDSA_Verify_Solver::initialize();
+
   
   solver.verify_init(R, S, E, KEY_X, KEY_Y, count);
   // for warm up
@@ -55,6 +59,7 @@ template <typename ECDSA_Verify_Solver>
 void test_ecdsa_verify() {
   u32 count = 1 << 22;
 
+  test_util::SkipIfNoCudaDevice();
 
   ECDSA_Verify_Solver solver;
   ECDSA_Verify_Solver::initialize();
