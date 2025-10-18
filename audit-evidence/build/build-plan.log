@@ -1,0 +1,11 @@
+echo "[+] Building KEYHUNT-ECC project..."
+make -C albertobsd-keyhunt
+make[1]: Entering directory '/home/engine/project/albertobsd-keyhunt'
+echo "[+] Building KEYHUNT-ECC GPU library..."
+mkdir -p ../KEYHUNT-ECC/build
+cd ../KEYHUNT-ECC/build/.. && cmake -B build -DCMAKE_BUILD_TYPE=Release
+cd ../KEYHUNT-ECC/build && make -j$(nproc)
+/bin/sh: 1: cd: can't cd to ../KEYHUNT-ECC/build
+make[1]: *** [Makefile:30: ../KEYHUNT-ECC/build/libkeyhunt_ecc.a] Error 2
+make[1]: Leaving directory '/home/engine/project/albertobsd-keyhunt'
+make: *** [Makefile:9: all] Error 2
