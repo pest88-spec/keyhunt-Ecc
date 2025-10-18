@@ -1,0 +1,112 @@
+[
+  {
+    "id": "C-3",
+    "severity": "Critical",
+    "priority": "P0",
+    "file": "albertobsd-keyhunt/gpu_backend_stub.cpp",
+    "line": 1,
+    "title": "GPU backend stub compiled in production tree",
+    "description": "The stub implementation returns GPU unavailable/error codes and will disable GPU acceleration if linked.",
+    "recommendation": "Move the stub behind a test-only build flag or remove it from the production build targets."
+  },
+  {
+    "id": "C-1",
+    "severity": "Critical",
+    "priority": "P0",
+    "file": "KEYHUNT-ECC/api/bridge.cu",
+    "line": 28,
+    "title": "kh_ecc_pmul_batch_soa not implemented",
+    "description": "The SoA batch multiplication entry point returns cudaErrorNotYetImplemented, breaking the SoA optimization path.",
+    "recommendation": "Implement the SoA kernel launch as outlined in the existing comment block and integrate it with launch_config.h heuristics."
+  },
+  {
+    "id": "C-2",
+    "severity": "Critical",
+    "priority": "P0",
+    "file": "KEYHUNT-ECC/api/bridge.cu",
+    "line": 58,
+    "title": "kh_ecc_pmul_batch_coop not implemented",
+    "description": "The cooperative warp kernel currently returns cudaErrorNotYetImplemented, preventing use of the high-performance variant on modern GPUs.",
+    "recommendation": "Provide the cooperative kernel implementation, including shared memory allocation and launch bounds tuned for Volta+."
+  },
+  {
+    "id": "H-2",
+    "severity": "High",
+    "priority": "P0",
+    "file": "KEYHUNT-ECC/core/batch_kernel.h",
+    "line": 11,
+    "title": "montgomery_batch_inverse overload without scratch is empty",
+    "description": "The overload that omits the scratch buffer returns without computing inverses when count > 1, yielding wrong results if ever invoked.",
+    "recommendation": "Remove this overload or allocate scratch dynamically and delegate to the scratch-enabled version."
+  },
+  {
+    "id": "H-1",
+    "severity": "High",
+    "priority": "P1",
+    "file": "KEYHUNT-ECC/core/fp_bitcrack.h",
+    "line": 282,
+    "title": "BitCrack mulModP PTX implementation missing",
+    "description": "A large TODO indicates the optimized PTX Montgomery multiplication is not implemented; the CPU fallback is used instead, limiting throughput.",
+    "recommendation": "Finish the PTX implementation (or provide a tuned CUDA version) and add regression tests for correctness."
+  },
+  {
+    "id": "H-4",
+    "severity": "High",
+    "priority": "P1",
+    "file": "KEYHUNT-ECC/core/batch_kernel.h",
+    "line": 21,
+    "title": "Batch inverse uses serial prefix",
+    "description": "Both the prefix accumulation and backward propagation loops are serial, causing O(n) latency per block and preventing parallelism.",
+    "recommendation": "Replace the loops with a parallel scan/backward pass using warp- and block-level primitives."
+  },
+  {
+    "id": "H-5",
+    "severity": "High",
+    "priority": "P1",
+    "file": "KEYHUNT-ECC/core/batch_kernel.h",
+    "line": 104,
+    "title": "Window size hardcoded to 4",
+    "description": "The scalar multiplication window width is fixed at 4, preventing tuning for different architectures and causing unnecessary doubles on large GPUs.",
+    "recommendation": "Parameterize the window size and auto-select W based on register pressure and architecture traits."
+  },
+  {
+    "id": "H-8",
+    "severity": "High",
+    "priority": "P1",
+    "file": "KEYHUNT-ECC/core/batch_kernel.h",
+    "line": 141,
+    "title": "Shared memory layout risks bank conflicts",
+    "description": "Fp objects (32 bytes) are stored per thread in a flat array, leading to likely bank conflicts when warps access zarr and scratch.",
+    "recommendation": "Adopt a structure-of-arrays layout or pad the shared memory to align accesses with bank boundaries."
+  },
+  {
+    "id": "M-13",
+    "severity": "Medium",
+    "priority": "P2",
+    "file": "albertobsd-keyhunt/gpu_backend.cpp",
+    "line": 111,
+    "title": "Synchronous cudaMemcpy blocks pipeline",
+    "description": "Host-device transfers use synchronous cudaMemcpy, preventing overlap of computation and data movement.",
+    "recommendation": "Switch to cudaMemcpyAsync with dedicated CUDA streams and pipeline transfers with kernel launches."
+  },
+  {
+    "id": "M-14",
+    "severity": "Medium",
+    "priority": "P2",
+    "file": "albertobsd-keyhunt/gpu_backend.cpp",
+    "line": 194,
+    "title": "Repeated malloc/free in byte conversion",
+    "description": "Each call to GPU_BatchPrivToPub_Bytes32BE allocates and frees three large host buffers, causing avoidable overhead and fragmentation.",
+    "recommendation": "Introduce a reusable host-side buffer pool or thread-local reusable vectors."
+  },
+  {
+    "id": "M-22",
+    "severity": "Medium",
+    "priority": "P2",
+    "file": "KEYHUNT-ECC/core/fp_montgomery.h",
+    "line": 489,
+    "title": "Shadowed variable name 'one'",
+    "description": "A local variable named 'one' shadows the static helper Fp::one(), which may confuse readers and tools.",
+    "recommendation": "Rename the local variable (e.g., to fp_one) to avoid name collisions."
+  }
+]

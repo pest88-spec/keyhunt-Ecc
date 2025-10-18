@@ -1,0 +1,18 @@
+./albertobsd-keyhunt/hash/sha512.cpp:367:  // TODO Handle key larger than 128
+./albertobsd-keyhunt/secp256k1/Int.cpp:1025:  // TODO: compute max digit
+./albertobsd-keyhunt/xxhash/xxhash.h:41:/* TODO: update */
+./albertobsd-keyhunt/xxhash/xxhash.h:1739:     * UGLY HACK:
+./albertobsd-keyhunt/xxhash/xxhash.h:2864:     && defined(__GNUC__) /* TODO: IBM XL */
+./albertobsd-keyhunt/xxhash/xxhash.h:2901: * UGLY HACK:
+./albertobsd-keyhunt/xxhash/xxhash.h:3010:# if !defined(XXH_NO_VZIP_HACK) /* define to disable */ \
+./albertobsd-keyhunt/xxhash/xxhash.h:3520:     * UGLY HACK:
+./albertobsd-keyhunt/xxhash/xxhash.h:3527:     * FIXME: Clang's output is still _much_ faster -- On an AMD Ryzen 3600,
+./albertobsd-keyhunt/xxhash/xxhash.h:3599:         * UGLY HACK:
+./albertobsd-keyhunt/xxhash/xxhash.h:4211:     * UGLY HACK:
+./albertobsd-keyhunt/xxhash/xxhash.h:4396:         * UGLY HACK:
+./KEYHUNT-ECC/core/fp_bitcrack.h:282:    // TODO: 完整的 BitCrack mulModP 实现
+./include/gecc/common.h:38:// TODO: support blockDim > 65536
+./include/gecc/arith/ec.h:638:    // TODO: not support for BLS12_377 curve 
+./include/gecc/arith/digit.h:78:    // TODO: Improve
+./include/common.h:27:// TODO: support blockDim > 65536
+./test/ecdsa_sign_baseline.cu:96:// TODO OPT
