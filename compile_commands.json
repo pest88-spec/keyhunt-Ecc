@@ -1,0 +1,537 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/nvcc",
+      "-c",
+      "--keep",
+      "--keep-dir",
+      "tmp",
+      "-v",
+      "CMakeCUDACompilerId.cu"
+    ],
+    "directory": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/3.28.3/CompilerIdCUDA",
+    "file": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/3.28.3/CompilerIdCUDA/CMakeCUDACompilerId.cu"
+  },
+  {
+    "arguments": [
+      "/usr/lib/nvidia-cuda-toolkit/bin/gcc",
+      "-D__CUDA_ARCH__=520",
+      "-D__CUDA_ARCH_LIST__=520",
+      "-c",
+      "-x",
+      "c++",
+      "-DCUDA_DOUBLE_MATH_FUNCTIONS",
+      "-m64",
+      "-o",
+      "tmp/CMakeCUDACompilerId.o",
+      "tmp/CMakeCUDACompilerId.cudafe1.cpp"
+    ],
+    "directory": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/3.28.3/CompilerIdCUDA",
+    "file": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/3.28.3/CompilerIdCUDA/tmp/CMakeCUDACompilerId.cudafe1.cpp",
+    "output": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/3.28.3/CompilerIdCUDA/tmp/CMakeCUDACompilerId.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-c",
+      "CMakeCXXCompilerId.cpp"
+    ],
+    "directory": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/3.28.3/CompilerIdCXX",
+    "file": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/3.28.3/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+  },
+  {
+    "arguments": [
+      "/usr/bin/nvcc",
+      "-forward-unknown-to-host-compiler",
+      "--generate-code=arch=compute_52,code=[compute_52,sm_52]",
+      "-Xcompiler=-v",
+      "-x",
+      "cu",
+      "-c",
+      "-o",
+      "CMakeFiles/cmTC_cab99.dir/CMakeCUDACompilerABI.cu.o",
+      "/usr/share/cmake-3.28/Modules/CMakeCUDACompilerABI.cu"
+    ],
+    "directory": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/CMakeScratch/TryCompile-50tDJj",
+    "file": "/usr/share/cmake-3.28/Modules/CMakeCUDACompilerABI.cu",
+    "output": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/CMakeScratch/TryCompile-50tDJj/CMakeFiles/cmTC_cab99.dir/CMakeCUDACompilerABI.cu.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-v",
+      "-c",
+      "-o",
+      "CMakeFiles/cmTC_c5b6a.dir/CMakeCXXCompilerABI.cpp.o",
+      "/usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp"
+    ],
+    "directory": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/CMakeScratch/TryCompile-j5hcTw",
+    "file": "/usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp",
+    "output": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/CMakeScratch/TryCompile-j5hcTw/CMakeFiles/cmTC_c5b6a.dir/CMakeCXXCompilerABI.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/nvcc",
+      "-forward-unknown-to-host-compiler",
+      "--options-file",
+      "CMakeFiles/keyhunt_ecc.dir/includes_CUDA.rsp",
+      "-O3",
+      "-DNDEBUG",
+      "-std=c++17",
+      "--generate-code=arch=compute_52,code=[compute_52,sm_52]",
+      "--expt-relaxed-constexpr",
+      "-x",
+      "cu",
+      "-c",
+      "-o",
+      "CMakeFiles/keyhunt_ecc.dir/api/bridge.cu.o",
+      "/home/engine/project/KEYHUNT-ECC/api/bridge.cu"
+    ],
+    "directory": "/home/engine/project/KEYHUNT-ECC/build",
+    "file": "/home/engine/project/KEYHUNT-ECC/api/bridge.cu",
+    "output": "/home/engine/project/KEYHUNT-ECC/build/CMakeFiles/keyhunt_ecc.dir/api/bridge.cu.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "oldbloom.o",
+      "oldbloom/bloom.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/oldbloom/bloom.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/oldbloom.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "bloom.o",
+      "bloom/bloom.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/bloom/bloom.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/bloom.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-unused-parameter",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "base58.o",
+      "base58/base58.c"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/base58/base58.c",
+    "output": "/home/engine/project/albertobsd-keyhunt/base58.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "rmd160.o",
+      "rmd160/rmd160.c"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/rmd160/rmd160.c",
+    "output": "/home/engine/project/albertobsd-keyhunt/rmd160.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "sha3.o",
+      "sha3/sha3.c"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/sha3/sha3.c",
+    "output": "/home/engine/project/albertobsd-keyhunt/sha3.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "keccak.o",
+      "sha3/keccak.c"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/sha3/keccak.c",
+    "output": "/home/engine/project/albertobsd-keyhunt/keccak.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "xxhash.o",
+      "xxhash/xxhash.c"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/xxhash/xxhash.c",
+    "output": "/home/engine/project/albertobsd-keyhunt/xxhash.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "util.o",
+      "util.c"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/util.c",
+    "output": "/home/engine/project/albertobsd-keyhunt/util.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "Int.o",
+      "secp256k1/Int.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/secp256k1/Int.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/Int.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "Point.o",
+      "secp256k1/Point.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/secp256k1/Point.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/Point.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "SECP256K1.o",
+      "secp256k1/SECP256K1.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/secp256k1/SECP256K1.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/SECP256K1.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "IntMod.o",
+      "secp256k1/IntMod.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/secp256k1/IntMod.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/IntMod.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "Random.o",
+      "secp256k1/Random.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/secp256k1/Random.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/Random.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "IntGroup.o",
+      "secp256k1/IntGroup.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/secp256k1/IntGroup.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/IntGroup.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "hash/ripemd160.o",
+      "hash/ripemd160.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/hash/ripemd160.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/hash/ripemd160.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "hash/sha256.o",
+      "hash/sha256.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/hash/sha256.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/hash/sha256.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "hash/ripemd160_sse.o",
+      "hash/ripemd160_sse.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/hash/ripemd160_sse.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/hash/ripemd160_sse.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-c",
+      "-o",
+      "hash/sha256_sse.o",
+      "hash/sha256_sse.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/hash/sha256_sse.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/hash/sha256_sse.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-I/usr/local/cuda/include",
+      "-c",
+      "-o",
+      "gpu_backend.o",
+      "gpu_backend.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/gpu_backend.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/gpu_backend.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-m64",
+      "-march=native",
+      "-mtune=native",
+      "-mssse3",
+      "-Wall",
+      "-Wextra",
+      "-Wno-deprecated-copy",
+      "-Ofast",
+      "-ftree-vectorize",
+      "-flto",
+      "-funroll-loops",
+      "-finline-functions",
+      "-fprefetch-loop-arrays",
+      "-pipe",
+      "-fomit-frame-pointer",
+      "base58.o",
+      "rmd160.o",
+      "hash/ripemd160.o",
+      "hash/ripemd160_sse.o",
+      "hash/sha256.o",
+      "hash/sha256_sse.o",
+      "bloom.o",
+      "oldbloom.o",
+      "xxhash.o",
+      "util.o",
+      "Int.o",
+      "Point.o",
+      "SECP256K1.o",
+      "IntMod.o",
+      "Random.o",
+      "IntGroup.o",
+      "sha3.o",
+      "keccak.o",
+      "gpu_backend.o",
+      "-o",
+      "keyhunt",
+      "keyhunt.cpp"
+    ],
+    "directory": "/home/engine/project/albertobsd-keyhunt",
+    "file": "/home/engine/project/albertobsd-keyhunt/keyhunt.cpp",
+    "output": "/home/engine/project/albertobsd-keyhunt/keyhunt"
+  }
+]
