@@ -1,7 +1,7 @@
 # Top-level Makefile for KEYHUNT-ECC project
 # Forward all make commands to albertobsd-keyhunt subdirectory
 
-.PHONY: all clean legacy bsgsd help
+.PHONY: all clean legacy bsgsd help verify-stage1
 
 # Default target: build keyhunt with GPU support
 all:
@@ -20,6 +20,10 @@ legacy:
 bsgsd:
 	@$(MAKE) -C albertobsd-keyhunt bsgsd
 
+# Stage 1 build verification helper
+verify-stage1:
+	@./scripts/verify_build_stage1.sh
+
 # Show help information
 help:
 	@echo "KEYHUNT-ECC Build System"
@@ -29,5 +33,6 @@ help:
 	@echo "  make clean    - Clean all build artifacts"
 	@echo "  make legacy   - Build legacy version (GMP-based, no GPU)"
 	@echo "  make bsgsd    - Build bsgsd tool"
+	@echo "  make verify-stage1 - Run Stage 1 Make/CMake verification with logs"
 	@echo ""
 	@echo "The keyhunt binary will be in: albertobsd-keyhunt/keyhunt"
