@@ -2,6 +2,7 @@
 #include "gecc/support.h"
 #include "gtest/gtest.h"
 #include<cmath>
+#include "gpu_test_utils.cuh"
 
 using namespace gecc;
 using namespace gecc::arith;
@@ -14,11 +15,13 @@ void test_ecdsa_verify_correctness() {
   u32 count = 1 << 22;
   bool is_batch_opt = true;
 
+  test_util::SkipIfNoCudaDevice();
+
   ECDSA_Verify_Solver solver;
   ECDSA_Verify_Solver::initialize();
-  
+
   solver.verify_init(R, S, E, KEY_X, KEY_Y, count);
-  // for warm up
+
   solver.verify_exec(MAX_SM_NUMS<<2, 256, is_batch_opt);
   cudaDeviceSynchronize();
   if (cudaPeekAtLastError() != cudaSuccess) {
@@ -62,15 +65,17 @@ void test_ecdsa_verify() {
   // u32 count = 80 * 256;
   bool is_batch_opt = true;
 
+  test_util::SkipIfNoCudaDevice();
+
   ECDSA_Verify_Solver solver;
   ECDSA_Verify_Solver::initialize();
-  
+
   // MAX_SM_NUMS=80: i=[13,17]
   // MAX_SM_NUMS=108: i=[13,17]
   // MAX_SM_NUMS=128: i=[12,16]
   for (int i = 13; i <= 16; i++) {
     count = MAX_SM_NUMS * (1<<i); //1<<18 ~ 1<<23
-    printf("--------------------------- %u (%d << %d) --------------------------\n", count, MAX_SM_NUMS, i);
+
 
     // solver.verify_init(R, S, E, KEY_X, KEY_Y, count);
     solver.verify_random_init(RANDOM_R, RANDOM_S, RANDOM_E, RANDOM_KEY_X, RANDOM_KEY_Y, count);

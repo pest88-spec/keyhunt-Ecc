@@ -4,9 +4,10 @@
 
 #include "gecc.h"
 #include "gecc/arith/layout.h"
+#include "gpu_test_utils.cuh"
 
 using namespace gecc;
-using namespace arith;
+using namespace gecc::arith;
 
 #include "fp_test_constants.h"
 
@@ -77,6 +78,7 @@ template <typename Field> void test_fp(size_t N,
   using Base = typename Field::Base;
   static const size_t LIMBS = Field::LIMBS;
 
+  test_util::SkipIfNoCudaDevice();
   Field::initialize();
 
   Base *a, *b, *sum, *prod, *inv_prod;

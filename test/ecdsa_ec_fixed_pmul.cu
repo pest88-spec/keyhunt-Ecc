@@ -2,6 +2,7 @@
 #include "gecc/support.h"
 #include "gtest/gtest.h"
 #include<cmath>
+#include "gpu_test_utils.cuh"
 
 using namespace gecc;
 using namespace gecc::arith;
@@ -12,6 +13,8 @@ using namespace gecc::ecdsa;
 template <typename ECDSA_EC_PMUL_Solver>
 void test_ecdsa_ec_fixed_pmul() {
   u32 count = 1 << 22;
+
+  test_util::SkipIfNoCudaDevice();
 
   ECDSA_EC_PMUL_Solver solver;
   ECDSA_EC_PMUL_Solver::initialize();

@@ -3,6 +3,7 @@
 
 #include "gtest/gtest.h"
 #include<cmath>
+#include "gpu_test_utils.cuh"
 
 using namespace gecc;
 using namespace gecc::arith;
@@ -16,10 +17,13 @@ void test_ecdsa_sign_correctness() {
   // u32 count = 80 * 256;
   u32 count = 1<<22;
   bool is_batch_opt = true;
+
+  test_util::SkipIfNoCudaDevice();
+
   ECDSA_solver solver;
   ECDSA_solver::initialize();
   solver.sign_init(E, PRIV_KEY, K, count);
-  // for warm up
+
   solver.sign_exec(320, 256, is_batch_opt);
   cudaDeviceSynchronize();
   if (cudaPeekAtLastError() != cudaSuccess) {
@@ -51,6 +55,9 @@ template <typename ECDSA_solver>
 void test_ecdsa_sign() {
   u32 count = 1<<22;
   bool is_batch_opt = true;
+
+  test_util::SkipIfNoCudaDevice();
+
   ECDSA_solver solver;
   ECDSA_solver::initialize();
 
@@ -59,7 +66,7 @@ void test_ecdsa_sign() {
   // MAX_SM_NUMS=128: i=[12,16]
   for (int i = 13; i <= 16; i++) {
     count = MAX_SM_NUMS * (1<<i); //1<<18 ~ 1<<23
-    printf("--------------------------- %u (%d << %d) --------------------------\n", count, MAX_SM_NUMS, i);
+
 
     // solver.sign_init(E, PRIV_KEY, K, count);
     solver.sign_random_init(RANDOM_E, RANDOM_PRIV_KEY, RANDOM_K, RANDOM_KEY_X, RANDOM_KEY_Y, count);
