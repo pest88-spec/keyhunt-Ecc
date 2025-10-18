@@ -3,7 +3,7 @@
 
 #include "gtest/gtest.h"
 #include<cmath>
-#include "test_utils.cuh"
+#include "gpu_test_utils.cuh"
 
 using namespace gecc;
 using namespace gecc::arith;

@@ -4,10 +4,10 @@
 
 #include "gecc.h"
 #include "gecc/arith/layout.h"
-#include "test_utils.cuh"
+#include "gpu_test_utils.cuh"
 
 using namespace gecc;
-
+using namespace gecc::arith;
 
 #include "fp_test_constants.h"
 
