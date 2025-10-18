@@ -1,0 +1,65 @@
+=== hashing.c ===
+keccak() <int keccak (const unsigned char *data, size_t length, unsigned char *digest) at hashing.c:58>:
+    SHA3_256_Init()
+    SHA3_256_Update()
+    KECCAK_256_Final()
+rmd160() <int rmd160 (const unsigned char *data, size_t length, unsigned char *digest) at hashing.c:68>:
+    RIPEMD160_Init()
+    printf()
+    RIPEMD160_Update()
+    RIPEMD160_Final()
+rmd160_4() <int rmd160_4 (size_t length, const unsigned char *data0, const unsigned char *data1, const unsigned char *data2, const unsigned char *data3, unsigned char *digest0, unsigned char *digest1, unsigned char *digest2, unsigned char *digest3) at hashing.c:85>:
+    RIPEMD160_Init()
+    printf()
+    RIPEMD160_Update()
+    RIPEMD160_Final()
+sha256() <int sha256 (const unsigned char *data, size_t length, unsigned char *digest) at hashing.c:9>:
+    SHA256_Init()
+    printf()
+    SHA256_Update()
+    SHA256_Final()
+sha256_4() <int sha256_4 (size_t length, const unsigned char *data0, const unsigned char *data1, const unsigned char *data2, const unsigned char *data3, unsigned char *digest0, unsigned char *digest1, unsigned char *digest2, unsigned char *digest3) at hashing.c:26>:
+    SHA256_Init()
+    printf()
+    SHA256_Update()
+    SHA256_Final()
+sha256_file() <bool sha256_file (const char *file_name, uint8_t *digest) at hashing.c:116>:
+    fopen()
+    printf()
+    SHA256_Init()
+    fclose()
+    fread()
+    SHA256_Update()
+    SHA256_Final()
+=== util.c ===
+addItemList() <void addItemList (char *data, List *l) at util.c:163>:
+    realloc()
+freetokenizer() <void freetokenizer (Tokenizer *t) at util.c:86>:
+    free()
+    memset()
+hasMoreTokens() <int hasMoreTokens (Tokenizer *t) at util.c:63>
+hexs2bin() <int hexs2bin (char *hex, unsigned char *out) at util.c:122>:
+    strlen()
+    memset()
+    hexchr2bin() <int hexchr2bin (const char hex, char *out) at util.c:146>:
+indexOf() <int indexOf (char *s, const char **array, int length_array) at util.c:43>:
+    strcmp()
+isValidHex() <int isValidHex (char *data) at util.c:169>:
+    strlen()
+nextToken() <char *nextToken (Tokenizer *t) at util.c:54>:
+stringtokenizer() <void stringtokenizer (char *data, Tokenizer *t) at util.c:67>:
+    trim() <char *trim (char *str, const char *seps) at util.c:39>:
+        ltrim() <char *ltrim (char *str, const char *seps) at util.c:8>:
+            strspn()
+            strlen()
+            memmove()
+        rtrim() <char *rtrim (char *str, const char *seps) at util.c:26>:
+            strlen()
+            strchr()
+    strtok()
+    realloc()
+    printf()
+    exit()
+tohex() <char *tohex (char *ptr, int length) at util.c:97>:
+    malloc()
+tohex_dst() <void tohex_dst (char *ptr, int length, char *dst) at util.c:111>:
