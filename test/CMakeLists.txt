@@ -1,9 +1,32 @@
 macro(add_gecc_test TEST_NAME TEST_SOURCE)
   set(test_target "${TEST_NAME}_test")
   add_executable(${test_target} ${TEST_SOURCE})
-  target_link_libraries(${test_target} PRIVATE GTest::Main stdc++)
-  add_dependencies(${test_target} generated_constants)
+  
+  target_include_directories(${test_target} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    ${KEYHUNT_ECC_GENERATED_INCLUDE_DIR}
+  )
+  
+  target_link_libraries(${test_target} PRIVATE
+    GTest::gtest_main
+    keyhunt_ecc
+    CUDA::cudart
+  )
+  
+  add_dependencies(${test_target} keyhunt_ecc_generated_constants)
+  
   gtest_discover_tests(${test_target})
+endmacro()
+
+macro(cuda_target_compile_options TARGET VERBOSE)
+  if (CMAKE_CUDA_COMPILER_ID STREQUAL "NVIDIA")
+    if (${VERBOSE})
+      target_compile_options(${TARGET} PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:--ptxas-options=-v;-lineinfo;-ftz=true>)
+    endif ()
+  elseif(CMAKE_CUDA_COMPILER_ID STREQUAL "Clang")
+  else()
+    message(FATAL_ERROR "Unknown CMAKE_CUDA_COMPILER_ID ${CMAKE_CUDA_COMPILER_ID}")
+  endif()
 endmacro()
 
 add_gecc_test(fp fp.cu)

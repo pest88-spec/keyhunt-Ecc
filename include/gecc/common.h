@@ -2,6 +2,8 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -26,10 +28,10 @@ static u32 MAX_PersistingL2CacheSize = 40;
 static u32 accessPolicyMaxWindowSize = 30;
 
 // CUDA error checking utility
-__host__ static void checkCudaError(cudaError_t error, const char* file, int line) {
+__host__ static void checkCudaError(cudaError_t error, const char *file, int line) {
     if (error != cudaSuccess) {
-        fprintf(stderr, "CUDA error at %s:%d: %s\n", file, line, cudaGetErrorString(error));
-        exit(EXIT_FAILURE);
+        std::fprintf(stderr, "CUDA error at %s:%d: %s\n", file, line, cudaGetErrorString(error));
+        std::exit(EXIT_FAILURE);
     }
 }
 
