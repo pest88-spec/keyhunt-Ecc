@@ -1,0 +1,7 @@
+[+] Building KEYHUNT-ECC project...
+make[1]: Entering directory '/home/engine/project/albertobsd-keyhunt'
+[+] Building KEYHUNT-ECC GPU library...
+/bin/sh: 1: cmake: not found
+make[1]: *** [Makefile:29: ../KEYHUNT-ECC/build/libkeyhunt_ecc.a] Error 127
+make[1]: Leaving directory '/home/engine/project/albertobsd-keyhunt'
+make: *** [Makefile:9: all] Error 2

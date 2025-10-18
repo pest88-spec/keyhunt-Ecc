@@ -1,0 +1,3 @@
+./test/fp.cu
+./test/performance_benchmark.cu
+./albertobsd-keyhunt/gpu_backend.cpp

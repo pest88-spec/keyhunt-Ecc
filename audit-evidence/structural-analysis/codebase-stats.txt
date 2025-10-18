@@ -1,0 +1,16 @@
+=== CODEBASE STATISTICS ===
+
+Date: $(date +"%Y-%m-%d %H:%M:%S")
+
+Total source files: 92
+Source lines of code: 27216
+Header files: 51
+CUDA files (.cu): 10
+C++ files (.cpp): 24
+C files (.c): 7
+
+Key Components:
+- KEYHUNT-ECC library (GPU-accelerated secp256k1)
+- albertobsd-keyhunt (main application)
+- Test suites and benchmarks
+- Supporting utilities and hash functions

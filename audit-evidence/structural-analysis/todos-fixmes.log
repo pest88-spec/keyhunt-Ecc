@@ -1,0 +1,74 @@
+./test/ecdsa_sign_baseline.cu:96:// TODO OPT
+./albertobsd-keyhunt/keyhunt.cpp:279:uint64_t DEBUGCOUNT = 0x400;
+./albertobsd-keyhunt/keyhunt.cpp:291:int FLAGDEBUG = 0;
+./albertobsd-keyhunt/keyhunt.cpp:612:				FLAGDEBUG = 1;
+./albertobsd-keyhunt/keyhunt.cpp:613:				printf("[+] Flag DEBUG enabled\n");
+./albertobsd-keyhunt/keyhunt.cpp:891:		BSGS_N.SetInt32(DEBUGCOUNT);
+./albertobsd-keyhunt/keyhunt.cpp:936:			BSGS_N.SetInt32(DEBUGCOUNT);
+./albertobsd-keyhunt/keyhunt.cpp:1290:			//if(FLAGDEBUG) bloom_print(&bloom_bP[i]);
+./albertobsd-keyhunt/keyhunt.cpp:1319:			//if(FLAGDEBUG) bloom_print(&bloom_bPx2nd[i]);
+./albertobsd-keyhunt/keyhunt.cpp:1348:			//if(FLAGDEBUG) bloom_print(&bloom_bPx3rd[i]);
+./albertobsd-keyhunt/keyhunt.cpp:1351:		//if(FLAGDEBUG) printf("[D] bloom_bP3_totalbytes : %" PRIu64 "\n",bloom_bP3_totalbytes);
+./albertobsd-keyhunt/keyhunt.cpp:1480:						if(FLAGDEBUG)	{
+./albertobsd-keyhunt/keyhunt.cpp:1791:				//if(FLAGDEBUG) printf("[D] THREADCYCLES: %lu\n",THREADCYCLES);
+./albertobsd-keyhunt/keyhunt.cpp:1794:					//if(FLAGDEBUG) printf("[D] PERTHREAD_R: %lu\n",PERTHREAD_R);
+./albertobsd-keyhunt/keyhunt.cpp:1842:								//if(FLAGDEBUG) printf("[D] Salir OK\n");
+./albertobsd-keyhunt/keyhunt.cpp:1844:							//if(FLAGDEBUG) printf("[I] %lu to %lu\n",bPload_temp_ptr[i].from,bPload_temp_ptr[i].to);
+./albertobsd-keyhunt/keyhunt.cpp:3200:				if(FLAGDEBUG) {
+./albertobsd-keyhunt/keyhunt.cpp:3302:	if(FLAGDEBUG && thread_number == 0)	{
+./albertobsd-keyhunt/keyhunt.cpp:3597:											//if(FLAGDEBUG) printf("[D] Key need to be negated\n");
+./albertobsd-keyhunt/keyhunt.cpp:4579:	//if(FLAGDEBUG) printf("[D] thread %i from %" PRIu64 " to %" PRIu64 "\n",threadid,tt->from,tt->to);
+./albertobsd-keyhunt/keyhunt.cpp:4588:	//if(FLAGDEBUG) printf("[D] thread %i nbStep %" PRIu64 "\n",threadid,nbStep);
+./albertobsd-keyhunt/keyhunt.cpp:4675:			if(FLAGDEBUG){
+./albertobsd-keyhunt/keyhunt.cpp:4777:	//if(FLAGDEBUG) printf("[D] thread %i nbStep %" PRIu64 "\n",threadid,nbStep);
+./albertobsd-keyhunt/keyhunt.cpp:5948:						//if(FLAGDEBUG ) printf("\n\n[D] cmpA = %i, cmpB = %i \n\n",cmpA,cmpB);
+./albertobsd-keyhunt/keyhunt.cpp:6361:				if(FLAGDEBUG)	{
+./albertobsd-keyhunt/keyhunt.cpp:6375:			if(FLAGDEBUG) {
+./albertobsd-keyhunt/keyhunt.cpp:6797:			if(FLAGDEBUG)	{
+./albertobsd-keyhunt/keyhunt_legacy.cpp:272:uint64_t DEBUGCOUNT = 0x400;
+./albertobsd-keyhunt/keyhunt_legacy.cpp:284:int FLAGDEBUG = 0;
+./albertobsd-keyhunt/keyhunt_legacy.cpp:440:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:453:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:474:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:579:				FLAGDEBUG = 1;
+./albertobsd-keyhunt/keyhunt_legacy.cpp:580:				printf("[+] Flag DEBUG enabled\n");
+./albertobsd-keyhunt/keyhunt_legacy.cpp:781:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:787:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:805:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:807:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:815:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:847:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:849:		BSGS_N.SetInt32(DEBUGCOUNT);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:871:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:894:			BSGS_N.SetInt32(DEBUGCOUNT);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:959:		//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:967:	//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1247:			//if(FLAGDEBUG) bloom_print(&bloom_bP[i]);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1276:			//if(FLAGDEBUG) bloom_print(&bloom_bPx2nd[i]);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1305:			//if(FLAGDEBUG) bloom_print(&bloom_bPx3rd[i]);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1308:		//if(FLAGDEBUG) printf("[D] bloom_bP3_totalbytes : %" PRIu64 "\n",bloom_bP3_totalbytes);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1433:						if(FLAGDEBUG)	{
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1682:								//if(FLAGDEBUG) printf("[D] Salir OK\n");
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1684:							//if(FLAGDEBUG) printf("[I] %lu to %lu\n",bPload_temp_ptr[i].from,bPload_temp_ptr[i].to);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1747:				//if(FLAGDEBUG) printf("[D] THREADCYCLES: %lu\n",THREADCYCLES);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1750:					//if(FLAGDEBUG) printf("[D] PERTHREAD_R: %lu\n",PERTHREAD_R);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1798:								//if(FLAGDEBUG) printf("[D] Salir OK\n");
+./albertobsd-keyhunt/keyhunt_legacy.cpp:1800:							//if(FLAGDEBUG) printf("[I] %lu to %lu\n",bPload_temp_ptr[i].from,bPload_temp_ptr[i].to);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:2100:		//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:2111:		//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:2123:					//if(FLAGDEBUG) { printf("[D] File: %s Line %i\n",__FILE__,__LINE__); fflush(stdout); }
+./albertobsd-keyhunt/keyhunt_legacy.cpp:3161:	if(FLAGDEBUG && thread_number == 0)	{
+./albertobsd-keyhunt/keyhunt_legacy.cpp:3292:						if(FLAGDEBUG)	{
+./albertobsd-keyhunt/keyhunt_legacy.cpp:3433:										if(FLAGDEBUG) {
+./albertobsd-keyhunt/keyhunt_legacy.cpp:3517:											//if(FLAGDEBUG) printf("[D] Key need to be negated\n");
+./albertobsd-keyhunt/keyhunt_legacy.cpp:3538:										if(FLAGDEBUG) {
+./albertobsd-keyhunt/keyhunt_legacy.cpp:4063:							if(FLAGDEBUG)	{
+./albertobsd-keyhunt/keyhunt_legacy.cpp:4636:				if(pub.X.data32[7] % DEBUGCOUNT == 0)  {
+./albertobsd-keyhunt/keyhunt_legacy.cpp:4682:	//if(FLAGDEBUG) printf("[D] thread %i from %" PRIu64 " to %" PRIu64 "\n",threadid,tt->from,tt->to);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:4691:	//if(FLAGDEBUG) printf("[D] thread %i nbStep %" PRIu64 "\n",threadid,nbStep);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:6044:						//if(FLAGDEBUG ) printf("\n\n[D] cmpA = %i, cmpB = %i \n\n",cmpA,cmpB);
+./albertobsd-keyhunt/keyhunt_legacy.cpp:6380:			if(FLAGDEBUG)	{
+./albertobsd-keyhunt/bsgsd.cpp:161:uint64_t DEBUGCOUNT = 0x400;
+./albertobsd-keyhunt/bsgsd.cpp:169:int FLAGDEBUG = 0;
+./albertobsd-keyhunt/hash/sha512.cpp:367:  // TODO Handle key larger than 128
+./albertobsd-keyhunt/secp256k1/Int.cpp:1025:  // TODO: compute max digit

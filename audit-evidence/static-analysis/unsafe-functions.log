@@ -1,0 +1,20 @@
+./albertobsd-keyhunt/keyhunt.cpp:264:int vanity_rmd_targets = 0;
+./albertobsd-keyhunt/keyhunt.cpp:269:char **vanity_address_targets = NULL;
+./albertobsd-keyhunt/keyhunt.cpp:1019:			if(fgets(aux,1022,fd) == aux)	{
+./albertobsd-keyhunt/keyhunt.cpp:1046:			if(fgets(aux,1022,fd) == aux)	{
+./albertobsd-keyhunt/keyhunt.cpp:2250:						sprintf(buffer,"[+] Total %s keys in %s seconds: %s keys/s\n",str_total,str_seconds,str_pretotal);
+./albertobsd-keyhunt/keyhunt.cpp:2253:						sprintf(buffer,"\r[+] Total %s keys in %s seconds: %s keys/s\r",str_total,str_seconds,str_pretotal);
+./albertobsd-keyhunt/keyhunt.cpp:2272:						sprintf(buffer,"[+] Total %s keys in %s seconds: ~%s %s (%s keys/s)\n",str_total,str_seconds,str_divpretotal,str_limits_prefixs[salir ? i : i-1],str_pretotal);
+./albertobsd-keyhunt/keyhunt.cpp:2276:							sprintf(buffer,"\r[+] Total %s keys in %s seconds: ~%s %s (%s keys/s)\r",str_total,str_seconds,str_divpretotal,str_limits_prefixs[salir ? i : i-1],str_pretotal);
+./albertobsd-keyhunt/keyhunt.cpp:2279:							sprintf(buffer,"\r[+] Total %s keys in %s seconds: ~%s %s (%s keys/s)\r",str_total,str_seconds,str_divpretotal,str_limits_prefixs[salir ? i : i-1],str_pretotal);
+./albertobsd-keyhunt/keyhunt.cpp:3303:		printf("[D] vanity_rmd_targets = %i          fillllll\n",vanity_rmd_targets);
+./albertobsd-keyhunt/keyhunt.cpp:3305:		for(i =0; i < vanity_rmd_targets;i++)	{
+./albertobsd-keyhunt/keyhunt.cpp:3525:										// Here the given publickeyhashrmd160 match againts one of the vanity targets
+./albertobsd-keyhunt/keyhunt.cpp:3608:										// Here the given publickeyhashrmd160 match againts one of the vanity targets
+./albertobsd-keyhunt/keyhunt.cpp:5943:			for(i = 0; i < vanity_rmd_targets && !r;i++)	{
+./albertobsd-keyhunt/keyhunt.cpp:5998:	int stringsize,targetsize,j,r = 0;
+./albertobsd-keyhunt/keyhunt.cpp:6002:	targetsize = strlen(target);
+./albertobsd-keyhunt/keyhunt.cpp:6003:	stringsize = targetsize;
+./albertobsd-keyhunt/keyhunt.cpp:6006:	if(targetsize >= 30 )	{
+./albertobsd-keyhunt/keyhunt.cpp:6009:	memcpy(target_copy,target,targetsize);
+./albertobsd-keyhunt/keyhunt.cpp:6011:	vanity_address_targets = (char**)  realloc(vanity_address_targets,(vanity_rmd_targets+1) * sizeof(char*));

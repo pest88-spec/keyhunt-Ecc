@@ -13,11 +13,19 @@ build/
 
 # Temporary files
 *.log
+!audit-evidence/**/*.log
 *.tmp
 *_test
 *_debug
 test_*
 debug_*
+
+# Audit deliverables - DO NOT IGNORE
+!AUDIT_REPORT.md
+!REMEDIATION_PLAN.md
+!AUDIT_DELIVERABLES_SUMMARY.md
+!audit-issues.json
+!audit-evidence/
 
 # Python
 __pycache__/

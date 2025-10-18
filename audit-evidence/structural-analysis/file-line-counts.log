@@ -1,0 +1,82 @@
+=== ./test/ecdsa_sign_baseline.cu ===
+102 ./test/ecdsa_sign_baseline.cu
+=== ./test/ecdsa_verify.cu ===
+112 ./test/ecdsa_verify.cu
+=== ./test/modinv_data_parallel_profiling.cu ===
+62 ./test/modinv_data_parallel_profiling.cu
+=== ./test/ecdsa_ec_unknown_pmul.cu ===
+62 ./test/ecdsa_ec_unknown_pmul.cu
+=== ./test/ecdsa_ec_fixed_pmul.cu ===
+62 ./test/ecdsa_ec_fixed_pmul.cu
+=== ./test/ecdsa_verify_baseline.cu ===
+107 ./test/ecdsa_verify_baseline.cu
+=== ./test/ecdsa_sign.cu ===
+101 ./test/ecdsa_sign.cu
+=== ./test/fp.cu ===
+167 ./test/fp.cu
+=== ./test/performance_benchmark.cu ===
+306 ./test/performance_benchmark.cu
+=== ./KEYHUNT-ECC/api/bridge.cu ===
+88 ./KEYHUNT-ECC/api/bridge.cu
+=== ./albertobsd-keyhunt/keyhunt.cpp ===
+6847 ./albertobsd-keyhunt/keyhunt.cpp
+=== ./albertobsd-keyhunt/gpu_backend_stub.cpp ===
+20 ./albertobsd-keyhunt/gpu_backend_stub.cpp
+=== ./albertobsd-keyhunt/keyhunt_legacy.cpp ===
+6928 ./albertobsd-keyhunt/keyhunt_legacy.cpp
+=== ./albertobsd-keyhunt/hashing.c ===
+148 ./albertobsd-keyhunt/hashing.c
+=== ./albertobsd-keyhunt/rmd160/rmd160.c ===
+450 ./albertobsd-keyhunt/rmd160/rmd160.c
+=== ./albertobsd-keyhunt/sha3/keccak.c ===
+182 ./albertobsd-keyhunt/sha3/keccak.c
+=== ./albertobsd-keyhunt/sha3/sha3.c ===
+674 ./albertobsd-keyhunt/sha3/sha3.c
+=== ./albertobsd-keyhunt/xxhash/xxhash.c ===
+43 ./albertobsd-keyhunt/xxhash/xxhash.c
+=== ./albertobsd-keyhunt/oldbloom/bloom.cpp ===
+309 ./albertobsd-keyhunt/oldbloom/bloom.cpp
+=== ./albertobsd-keyhunt/gpu_backend.cpp ===
+227 ./albertobsd-keyhunt/gpu_backend.cpp
+=== ./albertobsd-keyhunt/util.c ===
+178 ./albertobsd-keyhunt/util.c
+=== ./albertobsd-keyhunt/bsgsd.cpp ===
+2467 ./albertobsd-keyhunt/bsgsd.cpp
+=== ./albertobsd-keyhunt/base58/base58.c ===
+252 ./albertobsd-keyhunt/base58/base58.c
+=== ./albertobsd-keyhunt/hash/sha256.cpp ===
+527 ./albertobsd-keyhunt/hash/sha256.cpp
+=== ./albertobsd-keyhunt/hash/sha512.cpp ===
+406 ./albertobsd-keyhunt/hash/sha512.cpp
+=== ./albertobsd-keyhunt/hash/sha256_sse.cpp ===
+627 ./albertobsd-keyhunt/hash/sha256_sse.cpp
+=== ./albertobsd-keyhunt/hash/ripemd160_sse.cpp ===
+409 ./albertobsd-keyhunt/hash/ripemd160_sse.cpp
+=== ./albertobsd-keyhunt/hash/ripemd160.cpp ===
+321 ./albertobsd-keyhunt/hash/ripemd160.cpp
+=== ./albertobsd-keyhunt/secp256k1/IntMod.cpp ===
+1166 ./albertobsd-keyhunt/secp256k1/IntMod.cpp
+=== ./albertobsd-keyhunt/secp256k1/Random.cpp ===
+145 ./albertobsd-keyhunt/secp256k1/Random.cpp
+=== ./albertobsd-keyhunt/secp256k1/Int.cpp ===
+1080 ./albertobsd-keyhunt/secp256k1/Int.cpp
+=== ./albertobsd-keyhunt/secp256k1/Point.cpp ===
+77 ./albertobsd-keyhunt/secp256k1/Point.cpp
+=== ./albertobsd-keyhunt/secp256k1/SECP256K1.cpp ===
+812 ./albertobsd-keyhunt/secp256k1/SECP256K1.cpp
+=== ./albertobsd-keyhunt/secp256k1/IntGroup.cpp ===
+57 ./albertobsd-keyhunt/secp256k1/IntGroup.cpp
+=== ./albertobsd-keyhunt/bloom/bloom.cpp ===
+298 ./albertobsd-keyhunt/bloom/bloom.cpp
+=== ./albertobsd-keyhunt/gmp256k1/IntMod.cpp ===
+148 ./albertobsd-keyhunt/gmp256k1/IntMod.cpp
+=== ./albertobsd-keyhunt/gmp256k1/Random.cpp ===
+94 ./albertobsd-keyhunt/gmp256k1/Random.cpp
+=== ./albertobsd-keyhunt/gmp256k1/Int.cpp ===
+349 ./albertobsd-keyhunt/gmp256k1/Int.cpp
+=== ./albertobsd-keyhunt/gmp256k1/GMP256K1.cpp ===
+645 ./albertobsd-keyhunt/gmp256k1/GMP256K1.cpp
+=== ./albertobsd-keyhunt/gmp256k1/Point.cpp ===
+104 ./albertobsd-keyhunt/gmp256k1/Point.cpp
+=== ./albertobsd-keyhunt/gmp256k1/IntGroup.cpp ===
+57 ./albertobsd-keyhunt/gmp256k1/IntGroup.cpp
