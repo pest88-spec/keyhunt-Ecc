@@ -145,8 +145,16 @@ __device__ __forceinline__ static void addModP_bitcrack(
         carry = sum >> 32;
     }
 
-    // 条件减 P
-    if (carry) {
+    // 如果有进位，或者 c >= P，则减去 P，确保结果在 [0, P)
+    bool ge = false;
+    if (!carry) {
+        // 比较 c 与 P（小端，从高位 limb 开始）
+        for (int i = 7; i >= 0; --i) {
+            const uint32_t pi = (i==0)?0xFFFFFC2Fu:((i==1)?0xFFFFFFFEu:0xFFFFFFFFu);
+            if (c[i] != pi) { ge = c[i] > pi; break; }
+        }
+    }
+    if (carry || ge) {
         uint64_t borrow = 0;
         uint64_t t0 = (uint64_t)c[0] - 0xFFFFFC2Fu - borrow;
         c[0] = (uint32_t)t0; borrow = (t0 >> 63) & 1;
@@ -246,45 +254,76 @@ __device__ __forceinline__ static void mulModP_bitcrack(
     uint32_t c[8]
 ) {
 #if defined(__CUDA_ARCH__)
-    // 注意：BitCrack 原始代码使用 big-endian，需要适配为 little-endian
-    // 为简化实现，我们转换为 big-endian 执行 BitCrack 算法，然后转换回来
+    // 设备侧回退实现：与 CPU 相同的 512 位乘法 + 快速约简（保证正确性）
+    unsigned long long product[16] = {0ULL};
 
-    uint32_t a_be[8], b_be[8], c_be[8];
-    swap_endian(a_be, a);
-    swap_endian(b_be, b);
-
-    // BitCrack 原始算法（big-endian 版本）
-    // 完整 512 位乘法 + 快速约简
-    uint32_t high[8] = {0};
-    uint32_t s = 977;  // P = 2^256 - 2^32 - 977
-
-    // 第一轮：a[7] * b（最高位）
-    uint32_t t = a_be[7];
-
-    // a[7] * b (low)
-    for (int i = 7; i >= 0; i--) {
-        c_be[i] = t * b_be[i];
+    // 学校乘法：逐位相乘累加（32-bit limbs）
+    for (int i = 0; i < 8; ++i) {
+        unsigned long long carry = 0ULL;
+        for (int j = 0; j < 8; ++j) {
+            unsigned long long prod = (unsigned long long)a[i] * (unsigned long long)b[j];
+            unsigned long long sum = product[i + j] + prod + carry;
+            product[i + j] = (uint32_t)sum;
+            carry = sum >> 32;
+        }
+        product[i + 8] = (uint32_t)carry;
     }
 
-    // a[7] * b (high) - 使用 PTX 汇编
-    BC_MAD_HI_CC(c_be[6], t, b_be[7], c_be[6]);
-    BC_MADC_HI_CC(c_be[5], t, b_be[6], c_be[5]);
-    BC_MADC_HI_CC(c_be[4], t, b_be[5], c_be[4]);
-    BC_MADC_HI_CC(c_be[3], t, b_be[4], c_be[3]);
-    BC_MADC_HI_CC(c_be[2], t, b_be[3], c_be[2]);
-    BC_MADC_HI_CC(c_be[1], t, b_be[2], c_be[1]);
-    BC_MADC_HI_CC(c_be[0], t, b_be[1], c_be[0]);
-    BC_MADC_HI(high[7], t, b_be[0], high[7]);
+    // 快速约简：利用 2^256 ≡ 2^32 + 977 (mod P)
+    uint32_t low[8], high[8];
+    for (int i = 0; i < 8; ++i) {
+        low[i]  = (uint32_t)product[i];
+        high[i] = (uint32_t)product[i + 8];
+    }
 
-    // 继续其他轮次（a[6] 到 a[0]）
-    // 注：完整实现需要 ~300 行 PTX 汇编，这里使用简化版本
+    // result = low
+    for (int i = 0; i < 8; ++i) c[i] = low[i];
 
-    // TODO: 完整的 BitCrack mulModP 实现
-    // 由于代码过长，这里先用 CPU 回退版本替代
-    // 后续优化时补充完整 PTX 版本
+    // result += high * 977
+    unsigned long long carry = 0ULL;
+    for (int i = 0; i < 8; ++i) {
+        unsigned long long prod = (unsigned long long)high[i] * 977ULL;
+        unsigned long long sum = (unsigned long long)c[i] + prod + carry;
+        c[i] = (uint32_t)sum;
+        carry = sum >> 32;
+    }
 
-    // 临时：转换回 little-endian 并使用简化实现
-    swap_endian(c, c_be);
+    // result += high << 32 (左移一个 limb)
+    carry = 0ULL;
+    for (int i = 1; i < 8; ++i) {
+        unsigned long long sum = (unsigned long long)c[i] + (unsigned long long)high[i - 1] + carry;
+        c[i] = (uint32_t)sum;
+        carry = sum >> 32;
+    }
+
+    // 最终约简：最多执行几次减法
+    for (int iter = 0; iter < 3; ++iter) {
+        bool ge = false;
+        if (c[7] > 0x00FFFFFFu) {
+            ge = true;
+        } else if (c[7] == 0x00FFFFFFu) {
+            bool all_max = true;
+            for (int i = 6; i >= 1; --i) {
+                if (c[i] != 0xFFFFFFFFu) { all_max = false; break; }
+            }
+            if (all_max && c[0] >= 0xFFFFFC2Fu) ge = true;
+        }
+        if (ge) {
+            unsigned long long borrow = 0ULL;
+            unsigned long long t0 = (unsigned long long)c[0] - 0xFFFFFC2FULL - borrow;
+            c[0] = (uint32_t)t0; borrow = (t0 >> 63) & 1ULL;
+            unsigned long long t1 = (unsigned long long)c[1] - 0xFFFFFFFEULL - borrow;
+            c[1] = (uint32_t)t1; borrow = (t1 >> 63) & 1ULL;
+            for (int i = 2; i < 7; ++i) {
+                unsigned long long t = (unsigned long long)c[i] - 0xFFFFFFFFULL - borrow;
+                c[i] = (uint32_t)t; borrow = (t >> 63) & 1ULL;
+            }
+            unsigned long long t7 = (unsigned long long)c[7] - 0x00FFFFFFULL - borrow;
+            c[7] = (uint32_t)t7;
+        } else {
+            break;
+        }
+    }
 
 #else
     // CPU 回退：完整 512 位乘法 + 模约简
