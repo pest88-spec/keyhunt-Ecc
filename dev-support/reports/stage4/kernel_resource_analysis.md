@@ -47,6 +47,13 @@ ncu --set full --target-processes all --export dev-support/reports/stage4/ncu \
 Any dataset collected via the above commands can be committed under
 `dev-support/reports/stage4/` alongside this memo.
 
+A helper script is provided to automate collection when CUDA tools are available:
+
+```bash
+# From the repo root
+bash scripts/stage4_profile.sh
+```
+
 ## 3. Kernel resource snapshot (static inspection)
 
 | Kernel | Location | Dynamic shared memory | Observations | Suggested actions |
@@ -93,7 +100,7 @@ Any dataset collected via the above commands can be committed under
 
 ## 6. Recommended next steps
 
-1. Install the CUDA toolkit on the profiling host, rerun the commands in §2, and
+1. Install the CUDA toolkit on the profiling host, rerun the commands in §2 (or `scripts/stage4_profile.sh`), and
    add the generated `.resource` and Nsight reports under
    `dev-support/reports/stage4/`.
 2. Once register counts are known, evaluate the impact of
@@ -105,6 +112,11 @@ Any dataset collected via the above commands can be committed under
 4. Validate the launch heuristics by calling `cudaOccupancyAvailableDynamicSMemPerBlock`
    with the calculated shared-memory footprint and compare against actual Nsight
    Compute occupancy metrics.
+
+## 7. Atomics and memory-access notes
+
+- Static inspection (grep) found no CUDA device atomics in the `KEYHUNT-ECC` kernels or test `.cu` sources; contention from atomics is not a present bottleneck.
+- Risk for uncoalesced reads/writes arises mainly from AoS layouts when `GECC_QAPW_OPT_COLUMN_MAJORED_INPUTS` is disabled; prefer SoA for batch kernels and vectorised stores on output.
 
 Once the toolkit is available, append the measured register/shared-mem usage and
 occupancy data to the table in §3.
